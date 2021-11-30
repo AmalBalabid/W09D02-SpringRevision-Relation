@@ -3,6 +3,7 @@ package com.example.demo.Product;
 import com.example.demo.Orders.Orders;
 import com.example.demo.Orders.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,36 +21,37 @@ public class ProductService {
     }
 
 
-    public List<Product> getproducts(){
+    public List<Product> getAllProducts(){
         return productRepository.findAll();
     }
 
-    public Product getproduct(String id){
-
-        int product_id=Integer.valueOf(id);
+    public Product getProduct(String id){
+        Integer product_id = Integer.parseInt(id);
         return productRepository.findById(product_id).orElse(null);
     }
 
-    public Product createProduct(Product product, int orderseId){
-        Orders orders = ordersRepository.findById(orderseId).orElse(null);
+    public Product addProduct(int id, String name, double price, int order_id){
+        Product product = new Product();
+        product.setProductId(Long.valueOf(id));
+        product.setProductName(name);
+        product.setProductPrice(price);
+        Orders orders = ordersRepository.findById(order_id).orElse(null);
         product.getOrders().add(orders);
         return productRepository.save(product);
-
     }
 
-    public void deleteProduct(String id){
+    public ResponseEntity<String> deleteProduct(String id){
         int Product_id = Integer.valueOf(id);
         productRepository.deleteById(Product_id);
-
+        return ResponseEntity.ok().body("Product id:" +id);
     }
 
-    public void updateProduct(String id, Product data){
-        int Product_id =Integer.valueOf(id);
-        Product product = productRepository.findById(Product_id).orElse(null);
-
+    public void updateProduct(String id, String name){
+        Integer product_id = Integer.parseInt(id);
+        Product product = productRepository.findById(product_id).orElse(null);
         if (product != null){
-            product.setProductName(data.getProductName());
-            product.setProductPrice(data.getProductPrice());
+            product.setProductName(name);
+
             productRepository.save(product);
         }
     }

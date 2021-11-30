@@ -1,6 +1,7 @@
 package com.example.demo.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,31 +18,32 @@ class ProductController {
     }
 
     @GetMapping
-    public List<Product> getProducts(){
-        return productsService.getproducts();
-
+    public List<Product> getAllProducts(){
+        return productsService.getAllProducts();
     }
+
 
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable String id){
-        return productsService.getproduct(id);
-
+        return productsService.getProduct(id);
     }
 
+
     @PostMapping
-    public Product createProduct(@RequestBody Form form){
-        return productsService.createProduct(form.getProduct(), form.getOrderId());
+    @ResponseBody
+    public void addProduct(@RequestParam String id, @RequestParam String name, @RequestParam  double price,  @RequestParam  int order_id){
+        productsService.addProduct(Integer.valueOf(id), name, price, order_id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable String id){
-        productsService.deleteProduct(id);
-
+    public ResponseEntity<String> delProduct(@PathVariable String id){
+        return productsService.deleteProduct(id);
     }
 
-    @PutMapping("/{id}")
-    public void updateProduct(@PathVariable String id, @RequestBody Product data){
-        productsService.updateProduct(id, data);
+    @PutMapping
+    @ResponseBody
+    public void updateProduct(@RequestParam String id, @RequestParam String name){
+        productsService.updateProduct(id,name);
     }
 }
 
