@@ -19,17 +19,25 @@ public class Product {
     private long id ;
     private String name;
     private double price ;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Order> Order = new ArrayList<Order>();
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToMany
+    @JoinTable(name = "products_orders", joinColumns = @JoinColumn(name = "product_id",
+            referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "order_id",
+            referencedColumnName = "id"))
+    private Collection<order> order;
 
     public Product() {
     }
 
-    public Product(long id, String name, double price, Collection<org.hibernate.criterion.Order> order) {
+    public Product(long id, String name, double price, Category category, Collection<com.example.demo.Order.order> order) {
         this.id = id;
         this.name = name;
         this.price = price;
-        Order = order;
+        this.category = category;
+        this.order = order;
     }
 
     public long getId() {
@@ -56,21 +64,19 @@ public class Product {
         this.price = price;
     }
 
-    public Collection<org.hibernate.criterion.Order> getOrder() {
-        return Order;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setOrder(Collection<org.hibernate.criterion.Order> order) {
-        Order = order;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", Order=" + Order +
-                '}';
+    public Collection<com.example.demo.Order.order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(Collection<com.example.demo.Order.order> order) {
+        this.order = order;
     }
 }

@@ -3,8 +3,7 @@ package com.example.demo.Category;
 import com.example.demo.Product.Product;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Table(name="category")
@@ -13,16 +12,13 @@ public class Category {
     private Long id;
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "product_id")
-    private Product product;
+
     public Category() {
     }
 
-    public Category(Long id, String name, Product product) {
+    public Category(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.product = product;
     }
 
     public Long getId() {
@@ -41,11 +37,5 @@ public class Category {
         this.name = name;
     }
 
-    public Product getProduct() {
-        return product;
-    }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 }

@@ -1,26 +1,23 @@
 package com.example.demo.Order;
 
-import com.example.demo.Product.Product;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
-@Table(name="order")
+@Table(name="orders")
 public class order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private double price;
+    private Double price;
     private Date date;
 
-//    @ManyToMany(mappedBy = "products_orders")
-//    Set<Product> product;
+
     public order() {
     }
 
-    public order(Long id, double price, Date date) {
+    public order(Long id, Double price, Date date) {
         this.id = id;
         this.price = price;
         this.date = date;
@@ -34,11 +31,11 @@ public class order {
         this.id = id;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
