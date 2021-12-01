@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("product")
 public class ProductController {
@@ -13,12 +15,15 @@ public class ProductController {
     public ProductController(ProductServies productServies) {
         this.productServies = productServies;
     }
+//@GetMapping
+//    public ResponseEntity<String> getIdAndName(@RequestParam String id, @RequestParam String name){
+//        return ResponseEntity.ok().body(id + " " + name);
+//
+//    }
 @GetMapping
-    public ResponseEntity<String> getIdAndName(@RequestParam String id, @RequestParam String name){
-        return ResponseEntity.ok().body(id + " " + name);
-
-    }
-
+public List<Product> getProducts(){
+        return productServies.getProducts();
+}
 
     @PostMapping
     public Product addProduct(@RequestBody Product product){

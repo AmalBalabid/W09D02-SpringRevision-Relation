@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServies {
 
@@ -12,11 +14,13 @@ public class ProductServies {
     public ProductServies(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-    public Product getProduct(String id){
-        return productRepository.findById(Long.parseLong(id)).orElse(null);
+//    public Product getProduct(String id){
+//        return productRepository.findById(Long.parseLong(id)).orElse(null);
+//    }
+
+    public List<Product> getProducts() {
+    return  productRepository.findAll();
     }
-
-
     public Product addProduct(Product product){
         return productRepository.save(product);
     }
@@ -42,6 +46,8 @@ public class ProductServies {
             response = "Product not found";
         return response;
     }
+
+
 
 
 //    public Product updateProduct(Product product) {

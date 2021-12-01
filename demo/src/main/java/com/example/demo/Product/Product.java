@@ -2,10 +2,12 @@ package com.example.demo.Product;
 
 import com.example.demo.Category.Category;
 import com.example.demo.Order.Order;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table(name="products")
@@ -16,22 +18,25 @@ public class Product {
         private Long id;
         private String name;
         private double price;
-@ManyToOne(fetch = FetchType.EAGER, optional = true)
-
+@ManyToOne(fetch = FetchType.LAZY, optional = false)
 @JoinColumn(name="category_id")
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 private Category category;
 
-@ManyToMany(mappedBy = "productEn")
+   @ManyToMany(mappedBy = "product")
+//
 private List<Order> ordrEn = new ArrayList<>();
 
 
 
     public Product(){}
-    public Product(Long id, String name, double price, Category category) {
+
+    public Product(Long id, String name, double price, Category category, List<Order> ordrEn) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
+     this.ordrEn = ordrEn;
     }
 
     public Long getId() {
@@ -66,6 +71,12 @@ private List<Order> ordrEn = new ArrayList<>();
         this.category = category;
     }
 
+   public List<Order> getOrdrEn() {
+        return ordrEn;
+    }
 
+    public void setOrdrEn(List<Order> ordrEn) {
+        this.ordrEn = ordrEn;
+    }
 }
 
